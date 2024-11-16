@@ -1,0 +1,25 @@
+plugins {
+	id 'java'
+}
+
+group = 'com.facundoraviolo'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+	mavenCentral()
+}
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_1_8
+	targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+dependencies {
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+	testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.7.0'
+}
+
+tasks.test {
+	useJUnitPlatform()
+}

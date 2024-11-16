@@ -10,7 +10,7 @@ import com.facundoraviolo.versaflake.exceptions.InvalidBitConfigurationException
  * <p>
  * The default values are:
  * <ul>
- *     <li>Epoch: 2024-01-01 00:00:00 UTC (1704067200000L)</li>
+ *     <li>Start epoch: 2024-01-01 00:00:00 UTC (1704067200000L)</li>
  *     <li>Node ID Bits: 10 (provides 1024 possible node IDs)</li>
  *     <li>Sequence Bits: 12 (provides 4096 possible sequence values)</li>
  * </ul>

@@ -2,7 +2,7 @@ plugins {
 	id 'java'
 }
 
-group = 'com.facundoraviolo'
+group = 'ar.com.facundoraviolo'
 version = '0.0.1-SNAPSHOT'
 
 repositories {

@@ -37,7 +37,7 @@ Add Versaflake to your project via Maven or Gradle (coming soon to Maven Central
 Using the default configuration:
 
 ```java
-import com.facundoraviolo.versaflake.VersaflakeIDGenerator;  
+import ar.com.facundoraviolo.versaflake.VersaflakeIDGenerator;  
 
 public class Main {
     
@@ -55,8 +55,8 @@ public class Main {
 Using a custom configuration:
 
 ```java
-import com.facundoraviolo.versaflake.VersaflakeConfiguration;
-import com.facundoraviolo.versaflake.VersaflakeIDGenerator;  
+import ar.com.facundoraviolo.versaflake.VersaflakeConfiguration;
+import ar.com.facundoraviolo.versaflake.VersaflakeIDGenerator;  
 
 public class Main {
     

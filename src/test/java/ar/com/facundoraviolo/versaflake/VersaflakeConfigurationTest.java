@@ -1,6 +1,6 @@
-package com.facundoraviolo.versaflake;
+package ar.com.facundoraviolo.versaflake;
 
-import com.facundoraviolo.versaflake.exceptions.InvalidBitConfigurationException;
+import ar.com.facundoraviolo.versaflake.exceptions.InvalidBitConfigurationException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

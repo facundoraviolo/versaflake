@@ -1,4 +1,4 @@
-package com.facundoraviolo.versaflake.exceptions;
+package ar.com.facundoraviolo.versaflake.exceptions;
 
 /**
  * Exception thrown when the bit configuration for the ID generator is invalid.

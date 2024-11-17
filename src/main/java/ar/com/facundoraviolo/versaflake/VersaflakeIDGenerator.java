@@ -1,7 +1,7 @@
-package com.facundoraviolo.versaflake;
+package ar.com.facundoraviolo.versaflake;
 
-import com.facundoraviolo.versaflake.exceptions.ClockMovedBackwardException;
-import com.facundoraviolo.versaflake.exceptions.InvalidNodeIdException;
+import ar.com.facundoraviolo.versaflake.exceptions.ClockMovedBackwardException;
+import ar.com.facundoraviolo.versaflake.exceptions.InvalidNodeIdException;
 
 import static java.lang.System.currentTimeMillis;
 

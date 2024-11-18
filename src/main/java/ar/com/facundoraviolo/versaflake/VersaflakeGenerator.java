@@ -21,7 +21,7 @@ import static java.lang.System.currentTimeMillis;
  *
  * @author Facundo Raviolo
  */
-public class VersaflakeIDGenerator {
+public class VersaflakeGenerator {
 
     private final long nodeIdShift;
     private final long timestampShift;
@@ -31,7 +31,7 @@ public class VersaflakeIDGenerator {
     private long lastTimestamp = -1L;
     private long sequence = 0L;
 
-    VersaflakeIDGenerator(long nodeId, long startEpoch, long nodeIdBits, long sequenceBits) {
+    VersaflakeGenerator(long nodeId, long startEpoch, long nodeIdBits, long sequenceBits) {
         long maxNodeId = ~(-1L << nodeIdBits);
         this.nodeIdShift = sequenceBits;
         this.timestampShift = nodeIdBits + sequenceBits;
@@ -44,15 +44,15 @@ public class VersaflakeIDGenerator {
     }
 
     /**
-     * Factory method to create a VersaflakeIDGeneratorBuilder instance.
+     * Factory method to create a VersaflakeGeneratorBuilder instance.
      * <p>
      * The allowed values for nodeId depend on the number of bits available for the node ID.
      * For example, if nodeIdBits is 10, the valid nodeId range is from 0 to 1023.
      * @param nodeId The unique identifier for the node.
-     * @return A new VersaflakeIDGeneratorBuilder instance.
+     * @return A new VersaflakeGeneratorBuilder instance.
      */
-    public static VersaflakeIDGeneratorBuilder builder(long nodeId) {
-        return new VersaflakeIDGeneratorBuilder(nodeId);
+    public static VersaflakeGeneratorBuilder builder(long nodeId) {
+        return new VersaflakeGeneratorBuilder(nodeId);
     }
 
     /**
@@ -97,12 +97,12 @@ public class VersaflakeIDGenerator {
      * <p>
      * The builder follows the Builder design pattern, providing a fluent interface for easy chaining of method calls.
      */
-    public static class VersaflakeIDGeneratorBuilder {
+    public static class VersaflakeGeneratorBuilder {
 
         private final long nodeId;
         private VersaflakeConfiguration configuration;
 
-        VersaflakeIDGeneratorBuilder(long nodeId) {
+        VersaflakeGeneratorBuilder(long nodeId) {
             this.nodeId = nodeId;
         }
 
@@ -113,23 +113,23 @@ public class VersaflakeIDGenerator {
          * @param configuration The custom configuration to use for the generator.
          * @return The Builder for chaining configurations.
          */
-        public VersaflakeIDGeneratorBuilder configuration(VersaflakeConfiguration configuration) {
+        public VersaflakeGeneratorBuilder configuration(VersaflakeConfiguration configuration) {
             this.configuration = configuration;
             return this;
         }
 
         /**
-         * Builds the VersaflakeIDGenerator instance with the provided node ID and configuration.
+         * Builds the VersaflakeGenerator instance with the provided node ID and configuration.
          * <p>
          * If no configuration was provided via the {@link #configuration(VersaflakeConfiguration)} method,
          * a default configuration will be used when building the generator.
-         * @return The configured VersaflakeIDGenerator instance.
+         * @return The configured VersaflakeGenerator instance.
          */
-        public VersaflakeIDGenerator build() {
+        public VersaflakeGenerator build() {
             if (configuration == null) {
                 configuration = new VersaflakeConfiguration.VersaflakeConfigurationBuilder().build();
             }
-            return new VersaflakeIDGenerator(nodeId, configuration.getStartEpoch(), configuration.getNodeIdBits(), configuration.getSequenceBits());
+            return new VersaflakeGenerator(nodeId, configuration.getStartEpoch(), configuration.getNodeIdBits(), configuration.getSequenceBits());
         }
 
     }

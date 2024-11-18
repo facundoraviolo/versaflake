@@ -5,11 +5,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class VersaflakeIDGeneratorTest {
+public class VersaflakeGeneratorTest {
 
     @Test
     public void testDefaultIdGeneration() {
-        VersaflakeIDGenerator generator = VersaflakeIDGenerator.builder(1).build();
+        VersaflakeGenerator generator = VersaflakeGenerator.builder(1).build();
         long id1 = generator.nextId();
         long id2 = generator.nextId();
         assertNotEquals(id1, id2);
@@ -22,7 +22,7 @@ public class VersaflakeIDGeneratorTest {
                 .nodeIdBits(12)
                 .sequenceBits(10)
                 .build();
-        VersaflakeIDGenerator generator = VersaflakeIDGenerator.builder(1)
+        VersaflakeGenerator generator = VersaflakeGenerator.builder(1)
                 .configuration(config)
                 .build();
         long id1 = generator.nextId();
@@ -32,12 +32,12 @@ public class VersaflakeIDGeneratorTest {
 
     @Test
     public void testNodeIdOutOfRange() {
-        assertThrows(InvalidNodeIdException.class, () -> VersaflakeIDGenerator.builder(1024).build());
+        assertThrows(InvalidNodeIdException.class, () -> VersaflakeGenerator.builder(1024).build());
     }
 
     @Test
     public void testNodeIdInRange() {
-        VersaflakeIDGenerator generator = VersaflakeIDGenerator.builder(1023).build();
+        VersaflakeGenerator generator = VersaflakeGenerator.builder(1023).build();
         assertNotNull(generator);
     }
 

@@ -1,5 +1,6 @@
 plugins {
-	id 'java'
+	id 'java-library'
+	id 'com.vanniktech.maven.publish' version '0.30.0'
 }
 
 group = 'ar.com.facundoraviolo'
@@ -22,4 +23,39 @@ dependencies {
 
 tasks.test {
 	useJUnitPlatform()
+}
+
+publishing {
+	repositories {
+		mavenLocal()
+	}
+}
+
+mavenPublishing {
+	coordinates(group, 'versaflake', version)
+
+	pom {
+		name = 'Versaflake'
+		description = 'Versaflake is a highly customizable library for generating unique, distributed, and time-ordered IDs.'
+		inceptionYear = '2024'
+		url = 'https://github.com/facundoraviolo/versaflake'
+		licenses {
+			license {
+				name = 'MIT License'
+				url = 'https://github.com/facundoraviolo/versaflake/blob/main/LICENSE'
+			}
+		}
+		developers {
+			developer {
+				id = 'facundoraviolo'
+				name = 'Facundo Raviolo'
+				url = 'https://github.com/facundoraviolo'
+			}
+		}
+		scm {
+			url = 'https://github.com/facundoraviolo/versaflake'
+			connection = 'scm:git:git@github.com:facundoraviolo/versaflake.git'
+			developerConnection = 'scm:git:ssh://git@github.com:facundoraviolo/versaflake.git'
+		}
+	}
 }

@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
 	id 'java-library'
 	id 'com.vanniktech.maven.publish' version '0.30.0'
@@ -25,10 +27,9 @@ tasks.test {
 	useJUnitPlatform()
 }
 
-publishing {
-	repositories {
-		mavenLocal()
-	}
+mavenPublishing {
+	publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+	signAllPublications()
 }
 
 mavenPublishing {

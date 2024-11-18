@@ -39,11 +39,11 @@ Using the default configuration:
 ```java
 import ar.com.facundoraviolo.versaflake.VersaflakeIDGenerator;  
 
-public class Main {
+public class Application {
     
     public static void main(String[] args) {
 
-        VersaflakeIDGenerator versaflakeIDGenerator = new VersaflakeIDGenerator.Builder(1).build();
+        VersaflakeIDGenerator versaflakeIDGenerator = VersaflakeIDGenerator.builder(1).build();
 
         long id = versaflakeIDGenerator.nextId();
 
@@ -58,17 +58,17 @@ Using a custom configuration:
 import ar.com.facundoraviolo.versaflake.VersaflakeConfiguration;
 import ar.com.facundoraviolo.versaflake.VersaflakeIDGenerator;  
 
-public class Main {
+public class Application {
     
     public static void main(String[] args) {
 
-        VersaflakeConfiguration configuration = new VersaflakeConfiguration.Builder()
+        VersaflakeConfiguration configuration = VersaflakeConfiguration.builder()
                 .startEpoch(1731802819000L)
                 .nodeIdBits(14)
                 .sequenceBits(8)
                 .build();
 
-        VersaflakeIDGenerator versaflakeIDGenerator = new VersaflakeIDGenerator.Builder(15)
+        VersaflakeIDGenerator versaflakeIDGenerator = VersaflakeIDGenerator.builder(15)
                 .configuration(configuration)
                 .build();
         

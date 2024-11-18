@@ -9,7 +9,7 @@ public class VersaflakeIDGeneratorTest {
 
     @Test
     public void testDefaultIdGeneration() {
-        VersaflakeIDGenerator generator = new VersaflakeIDGenerator.Builder(1).build();
+        VersaflakeIDGenerator generator = VersaflakeIDGenerator.builder(1).build();
         long id1 = generator.nextId();
         long id2 = generator.nextId();
         assertNotEquals(id1, id2);
@@ -17,12 +17,12 @@ public class VersaflakeIDGeneratorTest {
 
     @Test
     public void testCustomIdGeneration() {
-        VersaflakeConfiguration config = new VersaflakeConfiguration.Builder()
+        VersaflakeConfiguration config = VersaflakeConfiguration.builder()
                 .startEpoch(1609459200000L)
                 .nodeIdBits(12)
                 .sequenceBits(10)
                 .build();
-        VersaflakeIDGenerator generator = new VersaflakeIDGenerator.Builder(1)
+        VersaflakeIDGenerator generator = VersaflakeIDGenerator.builder(1)
                 .configuration(config)
                 .build();
         long id1 = generator.nextId();
@@ -32,12 +32,12 @@ public class VersaflakeIDGeneratorTest {
 
     @Test
     public void testNodeIdOutOfRange() {
-        assertThrows(InvalidNodeIdException.class, () -> new VersaflakeIDGenerator.Builder(1024).build());
+        assertThrows(InvalidNodeIdException.class, () -> VersaflakeIDGenerator.builder(1024).build());
     }
 
     @Test
     public void testNodeIdInRange() {
-        VersaflakeIDGenerator generator = new VersaflakeIDGenerator.Builder(1023).build();
+        VersaflakeIDGenerator generator = VersaflakeIDGenerator.builder(1023).build();
         assertNotNull(generator);
     }
 

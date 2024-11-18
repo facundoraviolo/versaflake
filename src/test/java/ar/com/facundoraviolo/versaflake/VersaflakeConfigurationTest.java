@@ -10,7 +10,7 @@ public class VersaflakeConfigurationTest {
 
     @Test
     public void testDefaultConfiguration() {
-        VersaflakeConfiguration config = new VersaflakeConfiguration.Builder().build();
+        VersaflakeConfiguration config = VersaflakeConfiguration.builder().build();
         assertEquals(1704067200000L, config.getStartEpoch());
         assertEquals(10, config.getNodeIdBits());
         assertEquals(12, config.getSequenceBits());
@@ -18,7 +18,7 @@ public class VersaflakeConfigurationTest {
 
     @Test
     public void testCustomConfiguration() {
-        VersaflakeConfiguration config = new VersaflakeConfiguration.Builder()
+        VersaflakeConfiguration config = VersaflakeConfiguration.builder()
                 .startEpoch(1609459200000L)
                 .nodeIdBits(12)
                 .sequenceBits(10)
@@ -30,7 +30,7 @@ public class VersaflakeConfigurationTest {
 
     @Test
     public void testInvalidBitConfiguration() {
-        assertThrows(InvalidBitConfigurationException.class, () -> new VersaflakeConfiguration.Builder()
+        assertThrows(InvalidBitConfigurationException.class, () -> VersaflakeConfiguration.builder()
                 .nodeIdBits(15)
                 .sequenceBits(10)
                 .build());

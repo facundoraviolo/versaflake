@@ -3,7 +3,7 @@ package ar.com.facundoraviolo.versaflake;
 import ar.com.facundoraviolo.versaflake.exceptions.ClockMovedBackwardException;
 import ar.com.facundoraviolo.versaflake.exceptions.InvalidNodeIdException;
 
-import static java.lang.System.currentTimeMillis;
+import java.time.Clock;
 
 /**
  * <b>Versaflake ID Generator</b>
@@ -23,6 +23,7 @@ import static java.lang.System.currentTimeMillis;
  */
 public class VersaflakeGenerator {
 
+    private final Clock clock;
     private final long nodeIdShift;
     private final long timestampShift;
     private final long sequenceMask;
@@ -31,7 +32,8 @@ public class VersaflakeGenerator {
     private long lastTimestamp = -1L;
     private long sequence = 0L;
 
-    VersaflakeGenerator(long nodeId, long startEpoch, long nodeIdBits, long sequenceBits) {
+    VersaflakeGenerator(Clock clock, long nodeId, long startEpoch, long nodeIdBits, long sequenceBits) {
+        this.clock = clock;
         long maxNodeId = ~(-1L << nodeIdBits);
         this.nodeIdShift = sequenceBits;
         this.timestampShift = nodeIdBits + sequenceBits;
@@ -89,6 +91,10 @@ public class VersaflakeGenerator {
         return timestamp;
     }
 
+    private long currentTimeMillis() {
+        return clock.millis();
+    }
+
     /**
      * Builder class for creating instances of the Versaflake ID generator with customizable configurations.
      * <p>
@@ -129,7 +135,8 @@ public class VersaflakeGenerator {
             if (configuration == null) {
                 configuration = new VersaflakeConfiguration.VersaflakeConfigurationBuilder().build();
             }
-            return new VersaflakeGenerator(nodeId, configuration.getStartEpoch(), configuration.getNodeIdBits(), configuration.getSequenceBits());
+            return new VersaflakeGenerator(Clock.systemUTC(), nodeId, configuration.getStartEpoch(),
+                    configuration.getNodeIdBits(), configuration.getSequenceBits());
         }
 
     }

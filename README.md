@@ -30,7 +30,27 @@ This adaptability makes Versaflake suitable for a wide variety of distributed sy
 
 ### Installation
 
-Add Versaflake to your project via Maven or Gradle (coming soon to Maven Central).
+You can add Versaflake to your project directly from Maven Central.
+
+#### Using Maven
+
+Add the following dependency to your `pom.xml`:
+
+```xml
+<dependency>
+    <groupId>ar.com.facundoraviolo</groupId>
+    <artifactId>versaflake</artifactId>
+    <version>0.0.1</version>
+</dependency>
+```
+
+#### Using Gradle
+
+Add the following to your `build.gradle` file:
+
+```groovy
+implementation 'ar.com.facundoraviolo:versaflake:0.0.1'
+```
 
 ### Example Usage
 

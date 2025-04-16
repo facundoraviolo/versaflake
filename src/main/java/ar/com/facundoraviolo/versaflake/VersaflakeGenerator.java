@@ -15,6 +15,14 @@ import ar.com.facundoraviolo.versaflake.exceptions.InvalidNodeIdException;
  *     <li>Node ID Bits: 10 (provides 1024 possible node IDs)</li>
  *     <li>Sequence Bits: 12 (provides 4096 possible sequence values)</li>
  * </ul>
+ * <p>
+ * The generator supports flexible bit allocation for node ID and sequence,
+ * allowing custom configurations as long as the total bits do not exceed 63.
+ * Users should carefully consider their specific requirements when customizing bit allocation:
+ * <ul>
+ *     <li>Fewer node ID bits = fewer possible nodes</li>
+ *     <li>Fewer sequence bits = higher collision probability within the same millisecond</li>
+ * </ul>
  *
  * @author Facundo Raviolo
  */

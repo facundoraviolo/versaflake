@@ -10,7 +10,7 @@ import ar.com.facundoraviolo.versaflake.exceptions.InvalidBitConfigurationExcept
  * <p>
  * The default values are:
  * <ul>
- *     <li>Start epoch: 2024-01-01 00:00:00 UTC (1704067200000L)</li>
+ *     <li>Start epoch: 2025-01-01 00:00:00 UTC (1735689600000L)</li>
  *     <li>Node ID Bits: 10 (provides 1024 possible node IDs)</li>
  *     <li>Sequence Bits: 12 (provides 4096 possible sequence values)</li>
  * </ul>
@@ -20,7 +20,7 @@ import ar.com.facundoraviolo.versaflake.exceptions.InvalidBitConfigurationExcept
  */
 public class VersaflakeConfiguration {
 
-    private static final long DEFAULT_START_EPOCH = 1704067200000L;
+    private static final long DEFAULT_START_EPOCH = 1735689600000L;
     private static final long DEFAULT_NODE_ID_BITS = 10L;
     private static final long DEFAULT_SEQUENCE_BITS = 12L;
 
@@ -70,6 +70,7 @@ public class VersaflakeConfiguration {
      * Builder for configuring the Versaflake ID generator.
      * <p>
      * Allows setting the start epoch, the number of bits for the node ID, and the number of bits for the sequence.
+     * The total number of bits (node ID + sequence) must not exceed 63 bits.
      */
     public static class VersaflakeConfigurationBuilder {
 
@@ -119,11 +120,15 @@ public class VersaflakeConfiguration {
         /**
          * Builds the VersaflakeConfiguration instance with the configured values.
          * @return The generated VersaflakeConfiguration.
-         * @throws InvalidBitConfigurationException if the sum of nodeIdBits and sequenceBits is not equal to 22.
+         * @throws InvalidBitConfigurationException if the total bits exceeds 63 or any component has 0 or negative bits
          */
         public VersaflakeConfiguration build() {
-            if (nodeIdBits + sequenceBits != 22) {
-                throw new InvalidBitConfigurationException();
+            long totalBits = nodeIdBits + sequenceBits;
+            if (totalBits > 63) {
+                throw new InvalidBitConfigurationException("Total bits cannot exceed 63");
+            }
+            if (nodeIdBits <= 0 || sequenceBits <= 0) {
+                throw new InvalidBitConfigurationException("Node ID bits and sequence bits must be greater than 0");
             }
             return new VersaflakeConfiguration(this.startEpoch, this.nodeIdBits, this.sequenceBits);
         }

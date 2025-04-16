@@ -20,7 +20,7 @@ public class InvalidNodeIdException extends RuntimeException {
      * @param maxNodeId The maximum allowed node ID based on the number of bits allocated
      */
     public InvalidNodeIdException(long maxNodeId) {
-        super("nodeId must be between 0 and " + maxNodeId);
+        super(String.format("nodeId must be between 0 and %d", maxNodeId));
     }
 
 }

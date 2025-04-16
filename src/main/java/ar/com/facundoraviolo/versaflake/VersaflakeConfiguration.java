@@ -12,7 +12,7 @@ import ar.com.facundoraviolo.versaflake.exceptions.InvalidBitConfigurationExcept
  * The default values are:
  * <ul>
  *     <li>Start epoch: 2025-01-01 00:00:00 UTC (1735689600000L)</li>
- *     <li>Timestamp Bits: 41 (supports dates until 2159)</li>
+ *     <li>Timestamp Bits: 41 (supports dates until 2094)</li>
  *     <li>Node ID Bits: 10 (provides 1024 possible node IDs)</li>
  *     <li>Sequence Bits: 12 (provides 4096 possible sequence values)</li>
  *     <li>Strict Mode: false (wait for clock to catch up instead of throwing exception)</li>

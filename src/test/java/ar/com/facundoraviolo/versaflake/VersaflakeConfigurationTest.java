@@ -3,8 +3,7 @@ package ar.com.facundoraviolo.versaflake;
 import ar.com.facundoraviolo.versaflake.exceptions.InvalidBitConfigurationException;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class VersaflakeConfigurationTest {
 
@@ -12,8 +11,10 @@ public class VersaflakeConfigurationTest {
     public void testDefaultConfiguration() {
         VersaflakeConfiguration config = VersaflakeConfiguration.builder().build();
         assertEquals(1735689600000L, config.getStartEpoch());
+        assertEquals(41, config.getTimestampBits());
         assertEquals(10, config.getNodeIdBits());
         assertEquals(12, config.getSequenceBits());
+        assertFalse(config.isStrictMode());
     }
 
     @Test
@@ -33,7 +34,7 @@ public class VersaflakeConfigurationTest {
     @Test
     public void testInvalidBitConfiguration() {
         assertThrows(InvalidBitConfigurationException.class, () -> VersaflakeConfiguration.builder()
-                .nodeIdBits(15)
+                .nodeIdBits(13)
                 .sequenceBits(10)
                 .build());
     }

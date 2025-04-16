@@ -139,12 +139,6 @@ For example:
   - 6 bits node ID = 64 nodes
   - 8 bits sequence = 256 IDs per millisecond per node
 
-## Exceptions
-
-- **InvalidNodeIdException**: Thrown if the node ID is outside the valid range for the configured number of node ID bits.
-- **InvalidBitConfigurationException**: Thrown if the total bits exceeds 63 or if any component has zero or negative bits.
-- **ClockMovedBackwardException**: Thrown if strict mode is enabled and the system clock moves backward.
-
 ### Strict Mode
 
 The generator supports two modes for handling backwards clock movement:
@@ -161,6 +155,12 @@ VersaflakeGenerator generator = VersaflakeGenerator.builder(1)
         .build())
     .build();
 ```
+
+## Exceptions
+
+- **InvalidNodeIdException**: Thrown if the node ID is outside the valid range for the configured number of node ID bits.
+- **InvalidBitConfigurationException**: Thrown if the total bits exceeds 63 or if any component has zero or negative bits.
+- **ClockMovedBackwardException**: Thrown if strict mode is enabled and the system clock moves backward.
 
 ## License
 

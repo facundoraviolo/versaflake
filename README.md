@@ -8,23 +8,28 @@
 
 ## Overview
 
-**Versaflake** is a highly customizable library for generating unique, distributed, and time-ordered IDs inspired by [Twitter's Snowflake ID](https://en.wikipedia.org/wiki/Snowflake_ID) algorithm. Unlike the original Snowflake, Versaflake allows developers to customize the bit allocation between the node identifier and the sequence counter. This flexibility enables you to tailor the generator to your specific use case:
+**Versaflake** is a highly customizable library for generating unique, distributed, and time-ordered IDs inspired by [Twitter's Snowflake ID](https://en.wikipedia.org/wiki/Snowflake_ID) algorithm. Unlike the original Snowflake, Versaflake allows developers to fully customize the bit allocation for all components (timestamp, node identifier, and sequence counter). This flexibility enables you to tailor the generator to your specific use case by adjusting:
 
-- **More nodes with fewer IDs per millisecond per node**, or
-- **Fewer nodes with more IDs per millisecond per node**.
+- **Timestamp bits**: Control how far into the future IDs can be generated
+- **Node identifier bits**: Control how many different nodes can generate IDs
+- **Sequence bits**: Control how many IDs can be generated per millisecond per node
 
+The only restriction is that the total number of bits must not exceed 63 (due to Java's signed long limitation).
 This adaptability makes Versaflake suitable for a wide variety of distributed systems.
 
 ## Key Features
 
-- **Customizable configuration**: Adjust the number of bits allocated for the node ID and sequence to match your system's needs.
+- **Fully customizable bit allocation**: Adjust the number of bits for each component (timestamp, node ID, and sequence) to match your system's requirements.
 - **Thread-safe ID generation**: Generate IDs concurrently in a multithreaded environment without collisions.
+- **Strict mode support**: Choose between waiting for clock synchronization or throwing exceptions on backwards clock movement.
 - **Epoch-based time-ordering**: The IDs are based on the current time, ensuring they are generated in a predictable, time-ordered sequence.
 - **Builder design pattern**: Simplifies configuration with a fluent API for creating generators.
 - **Default configuration**:
-  - Start Epoch: 2025-01-01 00:00:00 UTC.
-  - Node ID Bits: 10 (1024 possible nodes).
-  - Sequence Bits: 12 (4096 IDs per millisecond per node).
+  - Start Epoch: 2025-01-01 00:00:00 UTC
+  - Timestamp Bits: 41 (supports dates until 2094)
+  - Node ID Bits: 10 (1024 possible nodes)
+  - Sequence Bits: 12 (4096 IDs per millisecond per node)
+  - Strict Mode: false (waits for clock to catch up)
 
 ## Getting Started
 
@@ -84,8 +89,10 @@ public class Application {
 
         VersaflakeConfiguration configuration = VersaflakeConfiguration.builder()
                 .startEpoch(1731802819000L)
+                .timestampBits(41)
                 .nodeIdBits(14)
                 .sequenceBits(8)
+                .strictMode()
                 .build();
 
         VersaflakeGenerator versaflakeGenerator = VersaflakeGenerator.builder(15)
@@ -106,21 +113,54 @@ public class Application {
 You can customize the following parameters using the `VersaflakeConfiguration.Builder`:
 
 - **Start Epoch**: Set a custom start date for the ID generator.
+- **Timestamp Bits**: Control how far into the future IDs can be generated (default: 41).
 - **Node ID Bits**: Define the number of bits for identifying nodes (default: 10).
 - **Sequence Bits**: Define the number of bits for the sequence counter (default: 12).
+- **Strict Mode**: Choose whether to throw an exception on backwards clock movement (default: false).
 
-**Important**: The sum of `nodeIdBits` and `sequenceBits` must always equal 22. This ensures compatibility with the 64-bit ID format.
+**Important**: The sum of `timestampBits`, `nodeIdBits`, and `sequenceBits` must not exceed 63. This limitation comes from Java's signed long type, where one bit is reserved for the sign.
 
 ### Trade-offs
 
-- Increasing **Node ID Bits** allows more nodes in the system but reduces the number of IDs a node can generate per millisecond.
-- Increasing **Sequence Bits** allows more IDs per node per millisecond but reduces the total number of nodes.
+When customizing bit allocation, consider these trade-offs:
+
+- **Timestamp Bits**: More bits allow for a longer time range before overflow, but reduce bits available for other components
+- **Node ID Bits**: More bits allow more nodes in the system, but reduce bits available for other components
+- **Sequence Bits**: More bits allow more IDs per millisecond per node, but reduce bits available for other components
+
+For example:
+- Default configuration (63 bits total):
+  - 41 bits timestamp = ~69 years from epoch
+  - 10 bits node ID = 1024 nodes
+  - 12 bits sequence = 4096 IDs per millisecond per node
+
+- Reduced timestamp configuration (53 bits total):
+  - 39 bits timestamp = ~17 years from epoch
+  - 6 bits node ID = 64 nodes
+  - 8 bits sequence = 256 IDs per millisecond per node
 
 ## Exceptions
 
-- **InvalidNodeIdException**: thrown if the node ID is outside the valid range for the configured number of node ID bits.
-- **InvalidBitConfigurationException**: thrown if the sum of `nodeIdBits` and `sequenceBits` does not equal 22.
-- **ClockMovedBackwardException**: thrown if the system clock moves backward, which can result in duplicate IDs.
+- **InvalidNodeIdException**: Thrown if the node ID is outside the valid range for the configured number of node ID bits.
+- **InvalidBitConfigurationException**: Thrown if the total bits exceeds 63 or if any component has zero or negative bits.
+- **ClockMovedBackwardException**: Thrown if strict mode is enabled and the system clock moves backward.
+
+### Strict Mode
+
+The generator supports two modes for handling backwards clock movement:
+
+- **Default Mode (false)**: When the system clock moves backward, the generator will wait until the clock catches up to avoid generating duplicate IDs.
+- **Strict Mode (true)**: When the system clock moves backward, the generator will immediately throw a `ClockMovedBackwardException`.
+
+Example using strict mode:
+
+```java
+VersaflakeGenerator generator = VersaflakeGenerator.builder(1)
+    .configuration(VersaflakeConfiguration.builder()
+        .strictMode()
+        .build())
+    .build();
+```
 
 ## License
 

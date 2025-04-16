@@ -14,10 +14,10 @@ package ar.com.facundoraviolo.versaflake.exceptions;
 public class InvalidBitConfigurationException extends RuntimeException {
 
     /**
-     * Constructs a new InvalidBitConfigurationException with a default message.
+     * Constructs a new InvalidBitConfigurationException.
      */
-    public InvalidBitConfigurationException() {
-        super("The sum of nodeIdBits and sequenceBits must be equal to 22.");
+    public InvalidBitConfigurationException(String message) {
+        super(message);
     }
 
 }

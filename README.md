@@ -22,7 +22,7 @@ This adaptability makes Versaflake suitable for a wide variety of distributed sy
 - **Epoch-based time-ordering**: The IDs are based on the current time, ensuring they are generated in a predictable, time-ordered sequence.
 - **Builder design pattern**: Simplifies configuration with a fluent API for creating generators.
 - **Default configuration**:
-  - Start Epoch: 2024-01-01 00:00:00 UTC.
+  - Start Epoch: 2025-01-01 00:00:00 UTC.
   - Node ID Bits: 10 (1024 possible nodes).
   - Sequence Bits: 12 (4096 IDs per millisecond per node).
 
@@ -40,7 +40,7 @@ Add the following dependency to your `pom.xml`:
 <dependency>
     <groupId>ar.com.facundoraviolo</groupId>
     <artifactId>versaflake</artifactId>
-    <version>0.0.1</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
@@ -49,7 +49,7 @@ Add the following dependency to your `pom.xml`:
 Add the following to your `build.gradle` file:
 
 ```groovy
-implementation 'ar.com.facundoraviolo:versaflake:0.0.1'
+implementation 'ar.com.facundoraviolo:versaflake:1.0.0'
 ```
 
 ### Example Usage

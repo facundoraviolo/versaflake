@@ -20,8 +20,10 @@ public class VersaflakeConfigurationTest {
     public void testCustomConfiguration() {
         VersaflakeConfiguration config = VersaflakeConfiguration.builder()
                 .startEpoch(1609459200000L)
+                .timestampBits(41)
                 .nodeIdBits(12)
                 .sequenceBits(10)
+                .strictMode()
                 .build();
         assertEquals(1609459200000L, config.getStartEpoch());
         assertEquals(12, config.getNodeIdBits());

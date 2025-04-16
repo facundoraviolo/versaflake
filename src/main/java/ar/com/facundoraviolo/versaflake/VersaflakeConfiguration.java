@@ -102,7 +102,7 @@ public class VersaflakeConfiguration {
 
         /**
          * Configures the epoch (start date) for ID generation.
-         * If not set, the default value (January 1, 2024, 00:00:00 UTC) will be used.
+         * If not set, the default value (January 1, 2025, 00:00:00 UTC) will be used.
          * @param startEpoch The timestamp in milliseconds representing the start date.
          * @return The Builder for chaining configurations.
          */

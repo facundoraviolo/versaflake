@@ -3,6 +3,7 @@ import com.vanniktech.maven.publish.SonatypeHost
 plugins {
 	id 'java-library'
 	id 'com.vanniktech.maven.publish' version '0.30.0'
+	id 'me.champeau.jmh' version '0.7.2'
 }
 
 group = 'ar.com.facundoraviolo'
@@ -21,6 +22,7 @@ dependencies {
 	testImplementation 'org.mockito:mockito-core:5.14.2'
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	jmhAnnotationProcessor 'org.openjdk.jmh:jmh-generator-annprocess:1.36'
 }
 
 tasks.test {

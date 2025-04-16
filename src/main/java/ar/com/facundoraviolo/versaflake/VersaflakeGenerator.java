@@ -1,9 +1,6 @@
 package ar.com.facundoraviolo.versaflake;
 
-import ar.com.facundoraviolo.versaflake.exceptions.ClockMovedBackwardException;
 import ar.com.facundoraviolo.versaflake.exceptions.InvalidNodeIdException;
-
-import java.time.Clock;
 
 /**
  * <b>Versaflake ID Generator</b>
@@ -23,7 +20,6 @@ import java.time.Clock;
  */
 public class VersaflakeGenerator {
 
-    private final Clock clock;
     private final long nodeIdShift;
     private final long timestampShift;
     private final long sequenceMask;
@@ -32,8 +28,7 @@ public class VersaflakeGenerator {
     private long lastTimestamp = -1L;
     private long sequence = 0L;
 
-    VersaflakeGenerator(Clock clock, long nodeId, long startEpoch, long nodeIdBits, long sequenceBits) {
-        this.clock = clock;
+    VersaflakeGenerator(long nodeId, long startEpoch, long nodeIdBits, long sequenceBits) {
         long maxNodeId = ~(-1L << nodeIdBits);
         this.nodeIdShift = sequenceBits;
         this.timestampShift = nodeIdBits + sequenceBits;
@@ -67,7 +62,7 @@ public class VersaflakeGenerator {
     public synchronized long nextId() {
         long timestamp = currentTimeMillis();
         if (timestamp < lastTimestamp) {
-            throw new ClockMovedBackwardException(lastTimestamp, timestamp);
+            timestamp = waitForNextMillis(lastTimestamp);
         }
         if (lastTimestamp == timestamp) {
             sequence = (sequence + 1) & sequenceMask;
@@ -92,7 +87,7 @@ public class VersaflakeGenerator {
     }
 
     private long currentTimeMillis() {
-        return clock.millis();
+        return System.currentTimeMillis();
     }
 
     /**
@@ -135,7 +130,7 @@ public class VersaflakeGenerator {
             if (configuration == null) {
                 configuration = new VersaflakeConfiguration.VersaflakeConfigurationBuilder().build();
             }
-            return new VersaflakeGenerator(Clock.systemUTC(), nodeId, configuration.getStartEpoch(),
+            return new VersaflakeGenerator(nodeId, configuration.getStartEpoch(),
                     configuration.getNodeIdBits(), configuration.getSequenceBits());
         }
 

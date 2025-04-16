@@ -11,7 +11,7 @@ public class VersaflakeConfigurationTest {
     @Test
     public void testDefaultConfiguration() {
         VersaflakeConfiguration config = VersaflakeConfiguration.builder().build();
-        assertEquals(1704067200000L, config.getStartEpoch());
+        assertEquals(1735689600000L, config.getStartEpoch());
         assertEquals(10, config.getNodeIdBits());
         assertEquals(12, config.getSequenceBits());
     }
